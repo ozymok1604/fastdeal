@@ -15,34 +15,45 @@ export const viewport = {
   viewportFit: 'cover',
 };
 
+const siteUrl = 'https://tactic.vercel.app';
+
+/** Прев’ю в месенджерах / соцмережах — фото товару, не маркетинговий банер */
+const ogProductImage = '/images/tactic-shadow-a/olive/1.jpeg';
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Тактичне взуття | tactic',
   description: 'Тактичні кросівки з доставкою по Україні.',
   keywords: ['тактичні кросівки', 'tactic', 'взуття', 'кросівки'],
   openGraph: {
     title: 'tactic',
     description: 'Тактичні кросівки з доставкою по Україні.',
-    url: 'https://tactic.vercel.app/',
+    url: siteUrl,
     siteName: 'tactic',
     images: [
       {
-        url: '/baner.jpg',
-        width: 1200,
-        height: 630,
+        url: ogProductImage,
+        width: 1600,
+        height: 1600,
+        alt: 'Тактичні кросівки',
       },
     ],
     locale: 'uk_UA',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'tactic',
+    description: 'Тактичні кросівки з доставкою по Україні.',
+    images: [ogProductImage],
   },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="uk">
-      <body className={manrope.className}>
-        {children}
-
-        {/* ✅ TikTok Pixel через Next.js Script */}
+      <head>
+        {/* TikTok Pixel у head — кореневий layout покриває всі маршрути */}
         <Script id="tiktok-pixel" strategy="afterInteractive">
           {`
             !function (w, d, t) {
@@ -76,12 +87,13 @@ export default function RootLayout({ children }) {
                 e = d.getElementsByTagName("script")[0];
                 e.parentNode.insertBefore(n, e);
               };
-              ttq.load('D3TL3LRC77U53GBVVNPG');
+              ttq.load('D7GF7HJC77U8OVL7ELEG');
               ttq.page();
             }(window, document, 'ttq');
           `}
         </Script>
-      </body>
+      </head>
+      <body className={manrope.className}>{children}</body>
     </html>
   );
 }
