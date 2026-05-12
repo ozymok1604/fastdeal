@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://tactic.vercel.app
+
+# Sitemaps
+Sitemap: https://tactic.vercel.app/sitemap.xml

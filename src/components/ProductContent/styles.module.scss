@@ -1,0 +1,12 @@
+.page {
+  display: flex;
+  flex-direction: column;
+
+  background-color: #e9ecef;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+html {
+  scroll-behavior: smooth;
+}

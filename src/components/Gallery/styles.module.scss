@@ -1,0 +1,140 @@
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  /* хедер + safe-area + відступ від бару */
+  margin-top: calc(var(--header-offset) + 18px);
+  overscroll-behavior-x: contain;
+}
+
+.imageWrap {
+  width: 100%;
+  max-width: min(100%, 480px);
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #e9ecef;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.06);
+  padding: 10px;
+  box-sizing: border-box;
+  overscroll-behavior-x: contain;
+  touch-action: pan-y pinch-zoom;
+}
+
+.image {
+  object-fit: contain;
+  object-position: center;
+  user-select: none;
+  touch-action: inherit;
+  border-radius: 12px;
+}
+
+/* Пагінація крапками */
+.dotsRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  margin-bottom: 16px;
+  padding: 0 12px;
+  max-width: min(100%, 480px);
+}
+
+.dot,
+.dotActive {
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  background: #94a3b8;
+  transition:
+    width 0.25s ease,
+    height 0.25s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  opacity: 0.55;
+
+  &:hover {
+    opacity: 0.85;
+    background: #64748b;
+  }
+}
+
+.dotActive {
+  width: 22px;
+  height: 9px;
+  border-radius: 999px;
+  background: #383926;
+  opacity: 1;
+}
+
+/* Анімації */
+.fadeIn {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.fadeOut {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+.slideLeft {
+  animation: slideLeft 0.25s ease;
+}
+
+.slideRight {
+  animation: slideRight 0.25s ease;
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(40px);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(-40px);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

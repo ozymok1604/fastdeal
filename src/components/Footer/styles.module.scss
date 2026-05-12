@@ -1,0 +1,112 @@
+/* Той самий тон, що хедер (#383926), без зеленої теми */
+.footer {
+  margin-top: 24px;
+  background: #383926;
+  color: #f9fafb;
+  padding: 28px 16px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 760px) {
+  .inner {
+    grid-template-columns: 1.2fr 1fr 1fr;
+  }
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.brand {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  color: #fff;
+}
+
+.tagline {
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+}
+
+.footerLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.footerNav {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8ecf0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(255, 255, 255, 0.35);
+}
+
+.footerNav:hover {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.6);
+}
+
+.blockTitle {
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: #fff;
+}
+
+.link,
+.row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #f9fafb;
+  text-decoration: none;
+  padding: 4px 0;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.link:hover,
+.row:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.bottom {
+  max-width: 1100px;
+  margin: 16px auto 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+}
+
+@media (min-width: 760px) {
+  .bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.muted {
+  opacity: 0.85;
+}

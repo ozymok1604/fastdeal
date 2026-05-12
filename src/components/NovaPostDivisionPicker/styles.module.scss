@@ -1,0 +1,243 @@
+/* Нейтральна палітра; зелений лише на кнопках дії (як раніше) */
+$ink: #0f172a;
+$ink-muted: #475569;
+$border: #cbd5e1;
+$border-strong: #94a3b8;
+$panel: #f1f5f9;
+$accent: #383926;
+$accent-hover: #2a2b1c;
+$btn-pine: #1f6d3d;
+$btn-pine-dark: #16502c;
+$btn-pine-press: #083d16;
+
+.container {
+  background: $panel;
+}
+
+.note {
+  background: $panel;
+  border-left: 4px solid $accent;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  color: $ink-muted;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 15px;
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    box-shadow: 0 0 0 2px rgba(56, 57, 38, 0.15);
+  }
+}
+
+.dropdown {
+  border: 1px solid $border;
+  border-radius: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.option {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: $ink;
+
+  &:hover {
+    background: #e2e8f0;
+  }
+}
+
+.gray {
+  opacity: 0.6;
+}
+
+.loading {
+  color: $ink-muted;
+  font-style: italic;
+}
+
+/* --- Bottom Sheet --- */
+.openButton {
+  background: $btn-pine;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: $btn-pine-press;
+  }
+}
+
+.sheetOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.sheet {
+  background: #fff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    color: $ink;
+    margin: 0;
+  }
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: $ink-muted;
+}
+
+.form label {
+  font-weight: 600;
+  margin-top: 10px;
+  display: block;
+  color: $ink;
+}
+
+.form input {
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  font-size: 16px;
+  color: $ink;
+
+  &:focus {
+    outline: none;
+    border-color: $border-strong;
+    box-shadow: 0 0 0 2px rgba(56, 57, 38, 0.12);
+  }
+}
+
+.form input.inputError {
+  border-color: #c62828;
+  box-shadow: 0 0 0 1px rgba(198, 40, 40, 0.25);
+  margin-bottom: 4px;
+}
+
+.fieldError {
+  color: #b71c1c;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  margin: 0 0 10px;
+}
+
+.submitBtn {
+  background: $btn-pine;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: $btn-pine-press;
+  }
+}
+
+.buyButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 24px;
+  min-width: 120px;
+  border: 1px solid $btn-pine-dark;
+  background: $btn-pine;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 20px;
+  font-weight: 700;
+  height: 44px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.buyButton:hover {
+  background: $btn-pine-dark;
+}
+
+.buyButton:active {
+  transform: translateY(1px);
+}
+
+.productInfo {
+  background: $panel;
+  border: 1px solid $border;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+
+  p {
+    margin: 4px 0;
+    color: $ink;
+    font-size: 15px;
+  }
+}
+
+.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+  background: #f3f3f3;
+  filter: grayscale(0.5);
+}
+
+.tag {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #64748b;
+  background: #e2e8f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+}

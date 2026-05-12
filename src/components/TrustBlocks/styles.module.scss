@@ -1,0 +1,82 @@
+.wrap {
+  --army-divider: #e5e0d6;
+  --army-ink: #1a1814;
+  --army-icon: #5a4f3d;
+  --army-subtext: #3f3a33;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top: 24px;
+  box-shadow: none;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--army-divider);
+}
+
+.item:first-child {
+  border-top: none;
+}
+
+.icon {
+  color: var(--army-icon);
+  background: transparent;
+  border: none;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+}
+
+.text {
+  flex: 1;
+}
+
+.title {
+  color: var(--army-ink);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+
+.line {
+  color: var(--army-subtext);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

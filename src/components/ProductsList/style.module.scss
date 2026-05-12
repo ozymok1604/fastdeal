@@ -1,0 +1,235 @@
+:root {
+  --bg-snow: #fff5f5; // теплий «сніговий» фон під список
+  --card-bg: #ffffff; // картки
+  --card-border: #e6e6e6; // тонка рамка
+  --text: #111827; // основний текст
+  --text-muted: #6b7280; // підписи
+  --accent-red: #c62828; // акцент (в тон банера)
+  --accent-red-d: #8e1b1b; // ховер/натиск
+  --pine: #1f6d3d; // ялинковий зелений (бейджі/іконки)
+  --gold: #d6a019; // дрібні акценти (ціна/зірочки)
+  --green: #4fab24;
+}
+.list {
+  background: #e9ecef;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 12px;
+  padding-top: calc(var(--header-offset) + 8px);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .list {
+    gap: 18px;
+    padding: 20px 18px;
+    padding-top: calc(var(--header-offset) + 8px);
+  }
+}
+
+.product {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s;
+}
+
+.fastLacing {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  width: 45%;
+  max-width: 96px;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.fastLacingImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.12));
+}
+
+@media (min-width: 640px) {
+  .fastLacing {
+    top: 8px;
+    left: 8px;
+    max-width: 108px;
+  }
+}
+
+.productName {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  /* Трошки «високіше» за квадрат, щоб фото займало більше висоти */
+  aspect-ratio: 1 / 1.08;
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+  /* Фон на фото збігається з #d3d5d4 — так не буде “рамки” при contain */
+  background: #d3d5d4;
+  /* Без відступу зверху: фото впирається у верхню межу картки */
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.image {
+  object-fit: contain;
+  /* contain по центру дає “поля” зверху й знизу — притискаємо до верху */
+  object-position: center top;
+}
+
+.colorThumbsRow {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  
+  
+ 
+  pointer-events: none;
+}
+
+.colorThumbWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  
+}
+
+.colorThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (min-width: 640px) {
+  .colorThumbsRow {
+    bottom: 12px;
+    gap: 9px;
+    padding: 9px 14px;
+  }
+
+  .colorThumbWrap {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* бейдж/ціна — опціонально */
+.badge {
+  background: var(--accent-red);
+  color: #fff;
+  border: 1px solid var(--accent-red-d);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-weight: 600;
+}
+.muted {
+  color: var(--text-muted);
+}
+.icon {
+  color: var(--pine);
+}
+.highlights {
+  padding: 0 10px 4px;
+  text-align: center;
+}
+
+.highlightLine {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #111827;
+}
+
+.highlightLine:last-child {
+  margin-bottom: 0;
+}
+
+@media (min-width: 640px) {
+  .highlightLine {
+    font-size: 12px;
+  }
+}
+
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px 12px;
+  width: 100%;
+}
+
+.price {
+  color: #1f6d3d;
+  font-weight: 700;
+  font-size: 17px;
+  margin: 0;
+  text-align: center;
+}
+
+.oldPrice {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.bottomBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 14px 14px;
+  padding-top: 0;
+  gap: 8px;
+}
+
+.buyButton {
+  width: 100%;
+  border: none;
+  background-color: #1f6d3d;
+  color: white;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  height: 46px;
+  cursor: pointer;
+}
+

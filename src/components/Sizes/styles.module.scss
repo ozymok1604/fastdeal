@@ -1,0 +1,36 @@
+.sizesRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.size {
+  border: 1px solid #2a3544;
+  color: #2a3544;
+  border-radius: 12px;
+  text-align: center;
+  padding: 6px 8px;
+  min-width: 0;
+  width: auto;
+  white-space: nowrap;
+  background-color: white;
+  font-size: 13px;
+  font-weight: 550;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.selectedSize {
+  @extend .size;
+  color: white;
+  background-color: #151b24;
+  border-color: #151b24;
+}
+
+.label {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: black;
+}

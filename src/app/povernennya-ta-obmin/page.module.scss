@@ -1,0 +1,147 @@
+.wrap {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f4f5f7 0%, #eef0f3 100%);
+  color: #1a1d23;
+  overflow-x: hidden;
+}
+
+.main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 18px 56px;
+  padding-top: calc(100px + env(safe-area-inset-top, 0px));
+}
+
+.title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0b0e14;
+  margin-bottom: 10px;
+  line-height: 1.15;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #5c6370;
+  font-weight: 500;
+  margin-bottom: 28px;
+}
+
+.notice {
+  padding: 16px 18px;
+  margin-bottom: 32px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(21, 27, 36, 0.08);
+  border-left: 4px solid #151b24;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #3d4450;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #151b24;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #151b24;
+  letter-spacing: 0.01em;
+}
+
+.text {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #3d4450;
+  margin: 0 0 12px;
+}
+
+.text:last-child {
+  margin-bottom: 0;
+}
+
+.textSpaced {
+  margin-top: 16px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  position: relative;
+  padding: 10px 0 10px 22px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #3d4450;
+  border-bottom: 1px solid rgba(21, 27, 36, 0.06);
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.listItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1.15em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #151b24;
+  opacity: 0.85;
+}
+
+.hint {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(21, 27, 36, 0.04);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+.hint strong {
+  color: #151b24;
+  font-weight: 700;
+}
+
+.alert {
+  margin: 16px 0;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #fff5f5;
+  border: 1px solid rgba(185, 28, 28, 0.2);
+  border-left: 4px solid #b91c1c;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #450a0a;
+}
+
+.legalNote {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid rgba(21, 27, 36, 0.1);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #4b5563;
+}
+
+@media (min-width: 640px) {
+  .main {
+    padding: 40px 24px 64px;
+    padding-top: calc(100px + env(safe-area-inset-top, 0px));
+  }
+}
