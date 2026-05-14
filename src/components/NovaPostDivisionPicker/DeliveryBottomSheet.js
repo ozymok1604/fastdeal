@@ -33,8 +33,8 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
 
   const handleSubmit = async () => {
     setPhoneError('');
-    if (!name || !phone || !selectedDivision) {
-      alert('Будь ласка, заповніть усі поля');
+    if (!phone.trim()) {
+      alert('Будь ласка, вкажіть номер телефону');
       return;
     }
 
@@ -46,13 +46,13 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
     const phoneFormatted = formatUaPhoneInternational(phone);
 
     const orderData = {
-      name,
+      name: name.trim() || 'Не вказано',
       phone: phoneFormatted,
       product: `${product?.name ?? 'Товар'} — ${
         product?.price?.toLocaleString('uk-UA') ?? ''
       } грн`,
-      division: selectedDivision.name,
-      address: selectedDivision.displayAddress,
+      division: selectedDivision?.name ?? 'Не вказано',
+      address: selectedDivision?.displayAddress ?? '—',
     };
 
     try {
@@ -112,12 +112,12 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
                 </div>
               )}
 
-              <label>Ім’я та прізвище:</label>
+              <label>Ім’я та прізвище (необов’язково):</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Ваше ім’я та прізвище"
+                placeholder="Можна залишити порожнім"
               />
 
               <label htmlFor="delivery-phone">Номер телефону:</label>
