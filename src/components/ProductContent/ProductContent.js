@@ -55,10 +55,12 @@ function ProductView({ productData }) {
         <Colors colors={productData.colors} color={color} setColor={setColor} />
         <Sizes sizes={productData.sizes} setSize={setSize} size={size} />
         <ProductDetails
+          productId={productData.id}
           name={productData.name}
           price={productData.price}
           compareAtMore={productData.compareAtMore}
           colorLabel={colorLabel}
+          colorId={color}
           size={size}
           specDetails={productData.specDetails}
           description={productData.description}

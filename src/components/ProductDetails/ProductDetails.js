@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import TrustBlocks from '../TrustBlocks/TrustBlocks';
 import DeliveryBottomSheet from '../NovaPostDivisionPicker/DeliveryBottomSheet';
 import { formatEuSizeWithCm } from '@/data/euSizeCm';
+import { getSalesdriveProductId } from '@/data/salesdriveProductIds';
 
 /** Розбиває `specDetails` по абзацах; рядки виду «Поле: значення» — жирно до двокрапки включно */
 function SpecDetailsContent({ text, className }) {
@@ -38,10 +39,12 @@ function SpecDetailsContent({ text, className }) {
 }
 
 const ProductDetails = ({
+  productId,
   name,
   price,
   compareAtMore,
   colorLabel,
+  colorId,
   size,
   specDetails,
   description,
@@ -51,6 +54,7 @@ const ProductDetails = ({
   const handleSubmit = () => {};
   const sizeLabel = formatEuSizeWithCm(size);
   const hasAdvantages = Array.isArray(advantages) && advantages.length > 0;
+  const salesdriveProductId = getSalesdriveProductId(productId, colorId, size);
 
   return (
     <div>
@@ -71,6 +75,7 @@ const ProductDetails = ({
             price,
             size,
             sizeLabel,
+            salesdriveProductId,
           }}
           onSubmit={handleSubmit}
         />

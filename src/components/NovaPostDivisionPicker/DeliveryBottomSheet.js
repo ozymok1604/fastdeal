@@ -62,31 +62,50 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
     };
 
     try {
+      const priceUah =
+        typeof product?.price === 'number' ? product.price : Number(product?.price) || 0;
+      const productTitle = product?.name ?? 'Товар';
+
+      /** @type {Record<string, unknown>} */
+      const crmBody = {
+        phone: phoneFormatted,
+        name: orderData.name,
+        productTitle,
+        priceUah,
+        sajt:
+          typeof window !== 'undefined' && window.location?.hostname
+            ? window.location.hostname
+            : undefined,
+        shipping_address: orderData.address,
+        division: selectedDivision
+          ? {
+              id: selectedDivision.id,
+              name: selectedDivision.name,
+              displayAddress: selectedDivision.displayAddress,
+              branchNumber: selectedDivision.branchNumber,
+              number: selectedDivision.number,
+              divisionNumber: selectedDivision.divisionNumber,
+              settlement: selectedDivision.settlement,
+            }
+          : null,
+      };
+
+      const sdId = typeof product?.salesdriveProductId === 'string' && product.salesdriveProductId.trim();
+      if (sdId) {
+        crmBody.products = [
+          {
+            id: sdId,
+            name: productTitle,
+            costPerItem: priceUah,
+            amount: 1,
+          },
+        ];
+      }
+
       const crmRes = await fetch('/api/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone: phoneFormatted,
-          name: orderData.name,
-          productTitle: product?.name ?? 'Товар',
-          priceUah: typeof product?.price === 'number' ? product.price : Number(product?.price) || 0,
-          sajt:
-            typeof window !== 'undefined' && window.location?.hostname
-              ? window.location.hostname
-              : undefined,
-          shipping_address: orderData.address,
-          division: selectedDivision
-            ? {
-                id: selectedDivision.id,
-                name: selectedDivision.name,
-                displayAddress: selectedDivision.displayAddress,
-                branchNumber: selectedDivision.branchNumber,
-                number: selectedDivision.number,
-                divisionNumber: selectedDivision.divisionNumber,
-                settlement: selectedDivision.settlement,
-              }
-            : null,
-        }),
+        body: JSON.stringify(crmBody),
       });
 
       let crmJson = null;
