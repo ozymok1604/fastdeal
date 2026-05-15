@@ -166,6 +166,17 @@ export async function POST(request) {
       if (typeof v === 'string' && /^\d+$/.test(v.trim())) return parseInt(v.trim(), 10);
       return undefined;
     };
+    /** Номер пункту НП: «2» як число або рядок типу «7161/1» (ППВ) — не відкидати. */
+    const npWarehouseNumber = (v) => {
+      if (typeof v === 'number' && Number.isFinite(v)) return v;
+      if (typeof v === 'string') {
+        const t = v.trim();
+        if (!t) return undefined;
+        if (/^\d+$/.test(t)) return parseInt(t, 10);
+        return t;
+      }
+      return undefined;
+    };
     division = {
       id: d.id != null ? String(d.id).trim() || undefined : undefined,
       name: typeof d.name === 'string' ? d.name : undefined,
@@ -176,8 +187,11 @@ export async function POST(request) {
           : typeof d.external_id === 'string'
             ? d.external_id.trim() || undefined
             : undefined,
+      ref: typeof d.ref === 'string' ? d.ref.trim() || undefined : undefined,
+      divisionCategory:
+        typeof d.divisionCategory === 'string' ? d.divisionCategory.trim() || undefined : undefined,
       branchNumber: numOrUndef(d.branchNumber),
-      number: numOrUndef(d.number),
+      number: npWarehouseNumber(d.number),
       divisionNumber: numOrUndef(d.divisionNumber),
       settlement,
     };

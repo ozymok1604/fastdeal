@@ -85,6 +85,9 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
               branchNumber: selectedDivision.branchNumber,
               number: selectedDivision.number,
               divisionNumber: selectedDivision.divisionNumber,
+              divisionCategory: selectedDivision.divisionCategory,
+              externalId: selectedDivision.externalId,
+              ref: selectedDivision.ref,
               settlement: selectedDivision.settlement,
             }
           : null,

@@ -2,7 +2,8 @@ import {
   buildSettlementCityFull,
   formatNpOrderAddressLine,
   formatNpSalesDriveShippingAddress,
-  getNovaBranchNumber,
+  getNovaWarehouseLabelForHumans,
+  getNovaWarehouseNumberForSalesDrive,
   novaWarehouseHintFromDivisionName,
 } from '@/lib/novaDivision';
 
@@ -240,7 +241,8 @@ function buildNovaposhtaBlock(division) {
 
   const warehouseRef = divisionWarehouseBranchRef(division);
   const settlementUuid = settlementRefFromDivision(division);
-  const branchNum = getNovaBranchNumber(division);
+  /** Номер з довідника НП («2» із «Відділення №2», або «7161/1» для ППВ і т.д.) */
+  const whStr = getNovaWarehouseNumberForSalesDrive(division);
 
   const ref =
     division.id != null && String(division.id).trim().length > 0
@@ -275,22 +277,47 @@ function buildNovaposhtaBlock(division) {
   };
   if (ttnRaw) np.ttn = ttnRaw;
 
-  /** Новий адрес: Ref населеного пункту + номер відділення (WarehouseNumber як рядок). */
-  if (settlementUuid != null && branchNum != null) {
-    np.city = settlementUuid;
-    np.WarehouseNumber = String(branchNum);
-    return pickNovaposhtaHandlerFields(np);
+  /**
+   * SalesDrive: якщо `city` — Ref НП населеного пункту, то `WarehouseNumber` має бути
+   * номер «1», «2», Ref відділення (UUID) або повна назва пункту на кшталт «Пункт приймання-видачі…».
+   * Рядок «7161/1» з API Nova Post international — не той формат, тому для ППВ беремо `division.name`.
+   */
+  const isPudoLike =
+    division.divisionCategory === 'PUDO' ||
+    (typeof division.name === 'string' && /пункт\s+приймання-видачі/iu.test(division.name));
+
+  if (settlementUuid != null && (whStr || warehouseRef)) {
+    let whForSd = '';
+    if (warehouseRef) whForSd = warehouseRef;
+    else if (
+      whStr &&
+      (isPudoLike || /^\d+\/\d+$/u.test(whStr)) &&
+      typeof division.name === 'string' &&
+      division.name.trim().length > 0
+    ) {
+      whForSd = division.name.trim();
+    } else if (whStr) whForSd = whStr;
+
+    if (whForSd) {
+      np.city = settlementUuid;
+      np.WarehouseNumber = whForSd;
+      return pickNovaposhtaHandlerFields(np);
+    }
   }
 
-  /** Лише Ref відділення з довідника НП. */
+  /** Лише Ref відділення з довідника НП (місто не обовʼязкове за докум. SalesDrive). */
   const whUuid = warehouseRef ?? divisionUuid;
   if (whUuid != null) {
     np.WarehouseNumber = whUuid;
     return pickNovaposhtaHandlerFields(np);
   }
 
-  const warehouseNumberFallback =
-    ref != null ? ref : branchNum != null ? String(branchNum) : undefined;
+  const warehouseNumberFallback = (() => {
+    if (!whStr) return undefined;
+    const nm = typeof division.name === 'string' ? division.name.trim() : '';
+    if ((isPudoLike || /^\d+\/\d+$/u.test(whStr)) && nm.length > 0) return nm;
+    return whStr;
+  })();
 
   if (cityShortLabel && warehouseNumberFallback) {
     np.cityNameFormat = 'short';
@@ -301,22 +328,10 @@ function buildNovaposhtaBlock(division) {
     return pickNovaposhtaHandlerFields(np);
   }
 
-  if (ref) {
-    np.WarehouseNumber = ref;
-    return pickNovaposhtaHandlerFields(np);
-  }
-
-  if (cityFull != null && branchNum != null) {
+  if (cityFull != null && warehouseNumberFallback) {
     np.cityNameFormat = 'full';
     np.city = cityFull;
-    np.WarehouseNumber = String(branchNum);
-    return pickNovaposhtaHandlerFields(np);
-  }
-
-  if (cityFull != null && ref) {
-    np.cityNameFormat = 'full';
-    np.city = cityFull;
-    np.WarehouseNumber = ref;
+    np.WarehouseNumber = warehouseNumberFallback;
     return pickNovaposhtaHandlerFields(np);
   }
 
@@ -439,9 +454,13 @@ export async function createSalesDriveShopOrder(payload) {
     commentLines.push('Відділення НП: не обрано — уточнити у клієнта');
   }
 
-  const branchNote = getNovaBranchNumber(division);
-  if (branchNote != null) {
-    commentLines.push(`Відділення НП: №${branchNote}`);
+  const warehouseNoNote = getNovaWarehouseLabelForHumans(division);
+  if (warehouseNoNote) {
+    commentLines.push(
+      /пункт\s+приймання-видачі/iu.test(warehouseNoNote)
+        ? `НП: ${warehouseNoNote}`
+        : `Відділення НП: №${warehouseNoNote}`
+    );
   }
 
   const autoName = splitFullNameForCrm(

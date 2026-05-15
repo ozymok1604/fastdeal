@@ -29,6 +29,59 @@ export function getNovaBranchNumber(division) {
 }
 
 /**
+ * Рядковий ключ відділення/ППВ для SalesDrive `novaposhta.WarehouseNumber`:
+ * спершу — чисто цифрові поля або «№N» із назви; якщо ні — формат номера НП типу «7161/1» для ППВ.
+ * @param {Record<string, unknown> | null | undefined} division
+ * @returns {string | undefined}
+ */
+export function getNovaWarehouseNumberForSalesDrive(division) {
+  if (!division || typeof division !== 'object') return undefined;
+  const candidates = [
+    division.branchNumber,
+    division.number,
+    division.divisionNumber,
+    division.branchNo,
+  ];
+  for (const c of candidates) {
+    if (typeof c === 'number' && Number.isFinite(c))
+      return String(Math.floor(Math.abs(c)));
+    if (typeof c === 'string') {
+      const t = c.trim();
+      if (!t) continue;
+      if (/^\d+$/u.test(t)) return t;
+    }
+  }
+  const fromName = novaWarehouseHintFromDivisionName(
+    typeof division.name === 'string' ? division.name : ''
+  );
+  if (fromName) return fromName.trim();
+  const rawNum = division.number;
+  if (typeof rawNum === 'string') {
+    const t = rawNum.trim();
+    if (/^\d+\/\d+$/u.test(t)) return t;
+  }
+  return undefined;
+}
+
+/**
+ * Читабельний опис пункту в листах / `shipping_address`: для ППВ — повна назва з API;
+ * для звичайного відділення — «код» (№2, тощо), як у `getNovaWarehouseNumberForSalesDrive`.
+ * @param {Record<string, unknown> | null | undefined} division
+ * @returns {string | undefined}
+ */
+export function getNovaWarehouseLabelForHumans(division) {
+  if (!division || typeof division !== 'object') return undefined;
+  const name = typeof division.name === 'string' ? division.name.trim() : '';
+  const code = getNovaWarehouseNumberForSalesDrive(division);
+  const looksPudo =
+    division.divisionCategory === 'PUDO' ||
+    (name.length > 0 && /пункт\s+приймання-видачі/iu.test(name)) ||
+    (typeof code === 'string' && /^\d+\/\d+$/u.test(code));
+  if (looksPudo && name) return name;
+  return code ?? undefined;
+}
+
+/**
  * Місто у форматі для novaposhta[city] (cityNameFormat=full): «Місто (Область)».
  * @param {{ name?: string, regionName?: string } | null | undefined} settlement
  */
@@ -46,8 +99,12 @@ export function buildSettlementCityFull(settlement) {
  */
 export function formatNpOrderAddressLine(division) {
   if (!division) return undefined;
-  const n = getNovaBranchNumber(division);
-  const branchLabel = n != null ? `відділення №${n}` : null;
+  const wh = getNovaWarehouseLabelForHumans(division);
+  const branchLabel = wh
+    ? /пункт\s+приймання-видачі/iu.test(wh)
+      ? wh
+      : `відділення №${wh}`
+    : null;
   const addr = typeof division.displayAddress === 'string' ? division.displayAddress.trim() : '';
   if (branchLabel && addr) return `${branchLabel}, ${addr}`;
   if (branchLabel) return branchLabel;
@@ -89,8 +146,12 @@ export function formatNpSalesDriveShippingAddress(division) {
   const parentRegionName =
     typeof s?.parentRegionName === 'string' ? s.parentRegionName.trim() : '';
 
-  const n = getNovaBranchNumber(division);
-  const branchSuffix = n != null ? `, відділення №${n}` : '';
+  const wh = getNovaWarehouseLabelForHumans(division);
+  const branchSuffix = wh
+    ? /пункт\s+приймання-видачі/iu.test(wh)
+      ? `, ${wh}`
+      : `, відділення №${wh}`
+    : '';
 
   const typeRaw =
     typeof s?.settlementType === 'string'
