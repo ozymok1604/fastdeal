@@ -5,6 +5,7 @@ import { ShoppingCartIcon } from '@phosphor-icons/react';
 import emailjs from 'emailjs-com';
 import OrderSuccessModal from '../OrderSuccessModal/OrderSuccessModal';
 import { formatUaPhoneInternational, isValidUaMobilePhone } from '@/lib/phoneUa';
+import { formatNpOrderAddressLine, formatNpSalesDriveShippingAddress } from '@/lib/novaDivision';
 
 const DeliveryBottomSheet = ({ onSubmit, product }) => {
   const [open, setOpen] = useState(false);
@@ -45,6 +46,11 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
 
     const phoneFormatted = formatUaPhoneInternational(phone);
 
+    const npAddressLine =
+      formatNpSalesDriveShippingAddress(selectedDivision) ??
+      formatNpOrderAddressLine(selectedDivision) ??
+      '—';
+
     const orderData = {
       name: name.trim() || 'Не вказано',
       phone: phoneFormatted,
@@ -52,10 +58,52 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
         product?.price?.toLocaleString('uk-UA') ?? ''
       } грн`,
       division: selectedDivision?.name ?? 'Не вказано',
-      address: selectedDivision?.displayAddress ?? '—',
+      address: npAddressLine,
     };
 
     try {
+      const crmRes = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: phoneFormatted,
+          name: orderData.name,
+          productTitle: product?.name ?? 'Товар',
+          priceUah: typeof product?.price === 'number' ? product.price : Number(product?.price) || 0,
+          sajt:
+            typeof window !== 'undefined' && window.location?.hostname
+              ? window.location.hostname
+              : undefined,
+          shipping_address: orderData.address,
+          division: selectedDivision
+            ? {
+                id: selectedDivision.id,
+                name: selectedDivision.name,
+                displayAddress: selectedDivision.displayAddress,
+                branchNumber: selectedDivision.branchNumber,
+                number: selectedDivision.number,
+                divisionNumber: selectedDivision.divisionNumber,
+                settlement: selectedDivision.settlement,
+              }
+            : null,
+        }),
+      });
+
+      let crmJson = null;
+      try {
+        crmJson = await crmRes.json();
+      } catch {
+        /* ignore */
+      }
+
+      if (!crmRes.ok) {
+        alert(
+          crmJson?.message ??
+            'Не вдалося створити замовлення в CRM (SalesDrive). Спробуйте ще раз або звʼяжіться з підтримкою.'
+        );
+        return;
+      }
+
       // ✉️ Надсилаємо через EmailJS
       await emailjs.send(
         'service_mzq9m1s', // твій Service ID
@@ -112,12 +160,15 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
                 </div>
               )}
 
-              <label>Ім’я та прізвище (необов’язково):</label>
+              <label htmlFor="delivery-name">Імʼя та прізвище:</label>
               <input
+                id="delivery-name"
                 type="text"
+                name="deliveryName"
+                autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Можна залишити порожнім"
+                placeholder="Наприклад, Іван Петренко"
               />
 
               <label htmlFor="delivery-phone">Номер телефону:</label>

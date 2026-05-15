@@ -143,7 +143,22 @@ const NovaPostSearch = ({ apiKey, onSelectDivision }) => {
                       if (isDisabled) return; // 🚫 не клікаємо
                       setDivisionQuery(d.name); // ✅ показуємо вибране у полі
                       setDivisions([]); // ✅ закриваємо список
-                      onSelectDivision(d); // передаємо вибір наверх
+                      onSelectDivision({
+                        ...d,
+                        settlement: selectedSettlement
+                          ? {
+                              ...selectedSettlement,
+                              regionName:
+                                typeof selectedSettlement.region?.name === 'string'
+                                  ? selectedSettlement.region.name
+                                  : undefined,
+                              parentRegionName:
+                                typeof selectedSettlement.region?.parent?.name === 'string'
+                                  ? selectedSettlement.region.parent.name
+                                  : undefined,
+                            }
+                          : undefined,
+                      });
                     }}
                     style={{ cursor: isDisabled ? 'not-allowed' : 'pointer' }}
                   >
