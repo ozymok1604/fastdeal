@@ -14,6 +14,7 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
   const [phoneError, setPhoneError] = useState('');
   const [selectedDivision, setSelectedDivision] = useState(null);
   const [successOpen, setSuccessOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const PHONE_ERR =
     'Вкажіть коректний мобільний номер України (наприклад, 099 807 35 56 або +380998073556).';
@@ -32,6 +33,10 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
     setPhoneError('');
   }, [open]);
 
+  useEffect(() => {
+    if (!open) setSubmitting(false);
+  }, [open]);
+
   const handleSubmit = async () => {
     setPhoneError('');
     if (!phone.trim()) {
@@ -44,6 +49,9 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
       return;
     }
 
+    if (submitting) return;
+
+    setSubmitting(true);
     const phoneFormatted = formatUaPhoneInternational(phone);
 
     const npAddressLine =
@@ -144,6 +152,8 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
     } catch (err) {
       console.error('Email send error:', err);
       alert('❌ Не вдалося надіслати замовлення.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -156,11 +166,17 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
       </button>
 
       {open && (
-        <div className={styles.sheetOverlay} onClick={() => setOpen(false)}>
+        <div className={styles.sheetOverlay} onClick={() => !submitting && setOpen(false)}>
           <div className={styles.sheet} onClick={(e) => e.stopPropagation()}>
             <div className={styles.header}>
               <h3>Дані для доставки</h3>
-              <button className={styles.closeBtn} onClick={() => setOpen(false)}>
+              <button
+                type="button"
+                className={styles.closeBtn}
+                disabled={submitting}
+                onClick={() => !submitting && setOpen(false)}
+                aria-busy={submitting}
+              >
                 ✕
               </button>
             </div>
@@ -221,8 +237,21 @@ const DeliveryBottomSheet = ({ onSubmit, product }) => {
                 onSelectDivision={(division) => setSelectedDivision(division)}
               />
 
-              <button className={styles.submitBtn} onClick={handleSubmit}>
-                Підтвердити доставку
+              <button
+                type="button"
+                className={styles.submitBtn}
+                onClick={handleSubmit}
+                disabled={submitting}
+                aria-busy={submitting}
+              >
+                {submitting ? (
+                  <>
+                    <span className={styles.submitSpinner} aria-hidden />
+                    <span>Відправляємо…</span>
+                  </>
+                ) : (
+                  'Підтвердити доставку'
+                )}
               </button>
             </div>
           </div>
