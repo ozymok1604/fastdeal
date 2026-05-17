@@ -89,6 +89,52 @@ const advantagesCrazy = [
   'підошва Мувер-9-гума, з гарним протектором.',
 ];
 
+/** Спільний блок для Blaze / Blaze-A22 / Core-A */
+const specDetailsBlazeSeries = `Матеріал: Натуральна шкіра, в комбінації з вставками 3D сітки.
+
+Підкладка: дихаюча сітка (чудова вентиляція).
+
+Підошва: EVA (м'яка та дуже легка).
+
+Сезон: весна/літо.
+
+Колір: чорний/олива/койот.
+
+Виробник: Харків.
+
+Розміри: 40-46 (повномірні).
+
+Вага пари - 700грам.`;
+
+/** Той самий опис, що в ТЗ до нової лінійки */
+const descriptionBlazeSeries = descriptionBase;
+
+const advantagesBlazeSeries = [
+  'система швидкої шнурівки;',
+  "посилена п'ята / антивандальний посилений носок;",
+  'чудово вентилюють завдяки 3D сітці;',
+  "підошва EVA, м'яка та легка;",
+];
+
+/** PNG галерея 1–5 у кожній теці кольору */
+const pngGallery1to5 = [1, 2, 3, 4, 5].map((n) => ({ n, ext: 'png' }));
+
+const blazeMediaByColor = {
+  olive: pngGallery1to5.map((m) => ({ ...m })),
+  coyote: pngGallery1to5.map((m) => ({ ...m })),
+  black: pngGallery1to5.map((m) => ({ ...m })),
+};
+
+const blazeA22MediaByColor = {
+  olive: pngGallery1to5.map((m) => ({ ...m })),
+};
+
+const coreAMediaByColor = {
+  olive: pngGallery1to5.map((m) => ({ ...m })),
+  coyote: pngGallery1to5.map((m) => ({ ...m })),
+  black: pngGallery1to5.map((m) => ({ ...m })),
+};
+
 export const products = [
   {
     id: 'tactic-shadow-a',
@@ -142,5 +188,55 @@ export const products = [
     description: descriptionBase,
     advantagesIntro: 'З переваг варто відмітити:',
     advantages: advantagesCrazy,
+  },
+  {
+    id: 'tactic-blaze',
+    name: 'Тактичні кросівки Blaze',
+    price: 2100,
+    compareAtMore: 500,
+    highlights: shadowAHighlights,
+    mediaByColor: blazeMediaByColor,
+    colors: [
+      { id: 'olive', label: 'Олива' },
+      { id: 'coyote', label: 'Койот' },
+      { id: 'black', label: 'Чорні' },
+    ],
+    sizes: [40, 41, 42, 43, 44, 45, 46],
+    specDetails: specDetailsBlazeSeries,
+    description: descriptionBlazeSeries,
+    advantagesIntro: 'З переваг варто відмітити:',
+    advantages: advantagesBlazeSeries,
+  },
+  {
+    id: 'tactic-blaze-a22',
+    name: 'Тактичні кросівки Blaze-A22',
+    price: 2100,
+    compareAtMore: 500,
+    highlights: shadowAHighlights,
+    mediaByColor: blazeA22MediaByColor,
+    colors: [{ id: 'olive', label: 'Олива' }],
+    sizes: [40, 41, 42, 43, 44, 45, 46],
+    specDetails: specDetailsBlazeSeries,
+    description: descriptionBlazeSeries,
+    advantagesIntro: 'З переваг варто відмітити:',
+    advantages: advantagesBlazeSeries,
+  },
+  {
+    id: 'tactic-core-a',
+    name: 'Тактичні кросівки Core-A',
+    price: 2100,
+    compareAtMore: 500,
+    highlights: shadowAHighlights,
+    mediaByColor: coreAMediaByColor,
+    colors: [
+      { id: 'olive', label: 'Олива' },
+      { id: 'coyote', label: 'Койот' },
+      { id: 'black', label: 'Чорні' },
+    ],
+    sizes: [40, 41, 42, 43, 44, 45, 46],
+    specDetails: specDetailsBlazeSeries,
+    description: descriptionBlazeSeries,
+    advantagesIntro: 'З переваг варто відмітити:',
+    advantages: advantagesBlazeSeries,
   },
 ];
