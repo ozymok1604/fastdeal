@@ -192,7 +192,7 @@ export const products = [
   {
     id: 'tactic-blaze',
     name: 'Тактичні кросівки Blaze',
-    price: 2100,
+    price: 2250,
     compareAtMore: 500,
     highlights: shadowAHighlights,
     mediaByColor: blazeMediaByColor,
@@ -210,7 +210,7 @@ export const products = [
   {
     id: 'tactic-blaze-a22',
     name: 'Тактичні кросівки Blaze-A22',
-    price: 2100,
+    price: 2250,
     compareAtMore: 500,
     highlights: shadowAHighlights,
     mediaByColor: blazeA22MediaByColor,
@@ -224,7 +224,7 @@ export const products = [
   {
     id: 'tactic-core-a',
     name: 'Тактичні кросівки Core-A',
-    price: 2100,
+    price: 2250,
     compareAtMore: 500,
     highlights: shadowAHighlights,
     mediaByColor: coreAMediaByColor,
