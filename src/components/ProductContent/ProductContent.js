@@ -10,9 +10,15 @@ import { Header } from '@/components/Header/Header';
 import { ProductDetails } from '@/components/ProductDetails/ProductDetails';
 import Footer from '@/components/Footer/Footer';
 
+/** За замовчуванням — койот, якщо є в асортименті товару; інакше перший колір (наприклад лише олива). */
+function defaultSelectedColorId(colors) {
+  if (!colors?.length) return 'coyote';
+  return colors.some((c) => c.id === 'coyote') ? 'coyote' : colors[0].id;
+}
+
 function ProductView({ productData }) {
   const [size, setSize] = useState(productData.sizes[0]);
-  const [color, setColor] = useState(productData.colors[0].id);
+  const [color, setColor] = useState(() => defaultSelectedColorId(productData.colors));
   /** Повний список з API; null = ще не прийшов — показуємо синхронний fallback з даних товару */
   const [scannedGalleryUrls, setScannedGalleryUrls] = useState(null);
 
