@@ -2,7 +2,7 @@
 import { Gallery } from '@/components/Gallery/Gallery';
 import { Sizes } from '@/components/Sizes/Sizes';
 import { Colors } from '@/components/Colors/Colors';
-import { products, mediaUrls } from '@/data/products';
+import { products, mediaUrls, defaultProductColorId } from '@/data/products';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
@@ -10,15 +10,9 @@ import { Header } from '@/components/Header/Header';
 import { ProductDetails } from '@/components/ProductDetails/ProductDetails';
 import Footer from '@/components/Footer/Footer';
 
-/** За замовчуванням — койот, якщо є в асортименті товару; інакше перший колір (наприклад лише олива). */
-function defaultSelectedColorId(colors) {
-  if (!colors?.length) return 'coyote';
-  return colors.some((c) => c.id === 'coyote') ? 'coyote' : colors[0].id;
-}
-
 function ProductView({ productData }) {
   const [size, setSize] = useState(productData.sizes[0]);
-  const [color, setColor] = useState(() => defaultSelectedColorId(productData.colors));
+  const [color, setColor] = useState(() => defaultProductColorId(productData.colors));
   /** Повний список з API; null = ще не прийшов — показуємо синхронний fallback з даних товару */
   const [scannedGalleryUrls, setScannedGalleryUrls] = useState(null);
 

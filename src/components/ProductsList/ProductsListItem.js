@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import styles from './style.module.scss';
 import Image from 'next/image';
-import { mediaUrls } from '@/data/products';
+import { mediaUrls, defaultProductColorId } from '@/data/products';
 
 const ProductsListItem = ({ data, listIndex = 0 }) => {
-  const previewColor = data.colors[0]?.id ?? 'olive';
+  const previewColor = defaultProductColorId(data.colors ?? []);
   const slots = data.mediaByColor?.[previewColor];
   const urls = slots?.length ? mediaUrls(data.id, previewColor, slots) : [];
-  const mainImgUrl = urls[0] ?? `/images/${data.id}/${previewColor}/1.jpeg`;
+  const fallbackExt = slots?.[0]?.ext ?? 'png';
+  const mainImgUrl = urls[0] ?? `/images/${data.id}/${previewColor}/1.${fallbackExt}`;
   const thumbColors = (data.colors ?? [])
     .filter((c) => c.id !== previewColor)
     .slice(0, 2);

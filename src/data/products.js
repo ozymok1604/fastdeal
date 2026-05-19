@@ -8,6 +8,15 @@ export function mediaUrls(productId, colorId, media) {
   return media.map((m) => `/images/${productId}/${colorId}/${m.n}.${m.ext}`);
 }
 
+/**
+ * Стартовий колір карточки товару і превʼю в списку: койот, якщо є в палітрі; інакше перший із каталогу.
+ * @param {{ id: string }[]} colors
+ */
+export function defaultProductColorId(colors) {
+  if (!colors?.length) return 'olive';
+  return colors.some((c) => c.id === 'coyote') ? 'coyote' : colors[0].id;
+}
+
 /** Олива: 1.jpeg + 2–8 .jpg */
 const oliveMedia1to8 = [
   { n: 1, ext: 'jpeg' },
@@ -29,16 +38,69 @@ const coyoteBlackMedia1to5 = [
   { n: 5, ext: 'jpg' },
 ];
 
+/** Файли під `public/images/tactic-shadow-a/` (переважно PNG; coyote №5–8 та olive №8 ще JPG). */
 const shadowAMediaByColor = {
-  olive: oliveMedia1to8,
-  coyote: coyoteBlackMedia1to5,
-  black: coyoteBlackMedia1to5,
+  olive: [
+    { n: 1, ext: 'png' },
+    { n: 2, ext: 'png' },
+    { n: 3, ext: 'png' },
+    { n: 4, ext: 'png' },
+    { n: 5, ext: 'png' },
+    { n: 6, ext: 'png' },
+    { n: 7, ext: 'png' },
+    { n: 8, ext: 'jpg' },
+  ],
+  coyote: [
+    { n: 1, ext: 'png' },
+    { n: 2, ext: 'png' },
+    { n: 3, ext: 'png' },
+    { n: 4, ext: 'png' },
+    { n: 5, ext: 'jpg' },
+    { n: 6, ext: 'jpg' },
+    { n: 7, ext: 'jpg' },
+    { n: 8, ext: 'jpg' },
+  ],
+  black: [1, 2, 3, 4, 5, 6, 7, 8].map((n) => ({ n, ext: 'png' })),
 };
 
 const falconAMediaByColor = {
   olive: oliveMedia1to8.map((m) => ({ ...m })),
   coyote: coyoteBlackMedia1to5.map((m) => ({ ...m })),
   black: coyoteBlackMedia1to5.map((m) => ({ ...m })),
+};
+
+/** Фактичне імʼя файлів під `public/images/tactic-crazy-a/` */
+const crazyAMediaByColor = {
+  olive: [
+    { n: 1, ext: 'jpeg' },
+    { n: 2, ext: 'jpg' },
+    { n: 3, ext: 'jpg' },
+    { n: 4, ext: 'jpg' },
+    { n: 5, ext: 'jpg' },
+    { n: 6, ext: 'png' },
+    { n: 7, ext: 'png' },
+    { n: 8, ext: 'png' },
+  ],
+  coyote: [
+    { n: 1, ext: 'jpeg' },
+    { n: 2, ext: 'jpg' },
+    { n: 3, ext: 'jpg' },
+    { n: 4, ext: 'jpg' },
+    { n: 5, ext: 'jpg' },
+    { n: 6, ext: 'jpg' },
+    { n: 7, ext: 'jpg' },
+    { n: 8, ext: 'png' },
+  ],
+  black: [
+    { n: 1, ext: 'jpeg' },
+    { n: 2, ext: 'jpg' },
+    { n: 3, ext: 'jpg' },
+    { n: 4, ext: 'jpg' },
+    { n: 5, ext: 'jpg' },
+    { n: 6, ext: 'jpg' },
+    { n: 7, ext: 'jpg' },
+    { n: 8, ext: 'png' },
+  ],
 };
 
 const shadowAHighlights = [
@@ -177,7 +239,7 @@ export const products = [
     price: 2100,
     compareAtMore: 500,
     highlights: shadowAHighlights,
-    mediaByColor: shadowAMediaByColor,
+    mediaByColor: crazyAMediaByColor,
     colors: [
       { id: 'olive', label: 'Олива' },
       { id: 'coyote', label: 'Койот' },

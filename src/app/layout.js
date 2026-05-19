@@ -18,7 +18,7 @@ export const viewport = {
 const siteUrl = 'https://tactic.vercel.app';
 
 /** Прев’ю в месенджерах / соцмережах — фото товару, не маркетинговий банер */
-const ogProductImage = '/images/tactic-shadow-a/olive/1.jpeg';
+const ogProductImage = '/images/tactic-shadow-a/coyote/1.png';
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
