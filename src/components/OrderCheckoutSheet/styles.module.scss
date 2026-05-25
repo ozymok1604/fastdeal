@@ -1,0 +1,90 @@
+.promoBlock {
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #c8e6c9;
+  background: #f1f8f4;
+}
+
+.promoTimerLine {
+  margin: 0 0 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #1b3d2a;
+
+  strong {
+    font-weight: 800;
+    color: #1f6d3d;
+    white-space: nowrap;
+  }
+}
+
+.promoLead {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #1f6d3d;
+}
+
+.promoLine {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  font-weight: 600;
+  color: #1f6d3d;
+
+  & + & {
+    margin-top: 2px;
+  }
+}
+
+.sheetScroll {
+  max-height: min(88vh, 720px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.continueBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 16px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  color: #334155;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: #f8fafc;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+}
+
+.summaryBlock {
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.summaryPrice {
+  margin: 6px 0 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0f172a;
+}

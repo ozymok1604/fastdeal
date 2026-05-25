@@ -1,0 +1,59 @@
+.card {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #c8e6c9;
+  background: #f1f8f4;
+  color: #1b3d2a;
+}
+
+.banner {
+  grid-column: 1 / -1;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #c8e6c9;
+  background: linear-gradient(135deg, #f1f8f4 0%, #e8f5e9 100%);
+  color: #1b3d2a;
+}
+
+.inline {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px dashed #94c9a3;
+  background: #f8fcf9;
+  color: #1b3d2a;
+}
+
+.title {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.rules {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+
+  li {
+    margin-bottom: 2px;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.active {
+  margin: 8px 0 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1f6d3d;
+}
+
+.hint {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  color: #4b6356;
+}

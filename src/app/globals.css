@@ -4,7 +4,7 @@
   --foreground: #171717;
   /* Фіксований хедер + виріз / статус-бар (Safari, Telegram WebView) */
   --safe-top: env(safe-area-inset-top, 0px);
-  --header-bar: 70px;
+  --header-bar: 52px;
   --header-offset: calc(var(--header-bar) + var(--safe-top));
 }
 

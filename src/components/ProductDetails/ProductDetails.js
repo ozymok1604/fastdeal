@@ -1,9 +1,11 @@
 'use client';
 import styles from './styles.module.scss';
 import TrustBlocks from '../TrustBlocks/TrustBlocks';
-import DeliveryBottomSheet from '../NovaPostDivisionPicker/DeliveryBottomSheet';
+import VolumeDiscountNote from '../VolumeDiscountNote/VolumeDiscountNote';
 import { formatEuSizeWithCm } from '@/data/euSizeCm';
 import { getSalesdriveProductId } from '@/data/salesdriveProductIds';
+import { ShoppingCartIcon } from '@phosphor-icons/react';
+import { useCart } from '@/context/CartContext';
 
 /** Розбиває `specDetails` по абзацах; рядки виду «Поле: значення» — жирно до двокрапки включно */
 function SpecDetailsContent({ text, className }) {
@@ -51,10 +53,24 @@ const ProductDetails = ({
   advantages,
   advantagesIntro,
 }) => {
-  const handleSubmit = () => {};
+  const { addItem, openCheckout } = useCart();
   const sizeLabel = formatEuSizeWithCm(size);
   const hasAdvantages = Array.isArray(advantages) && advantages.length > 0;
   const salesdriveProductId = getSalesdriveProductId(productId, colorId, size);
+
+  const handleOrder = () => {
+    addItem({
+      productId,
+      productName: name,
+      colorId,
+      colorLabel,
+      size,
+      sizeLabel,
+      price,
+      salesdriveProductId,
+    });
+    openCheckout();
+  };
 
   return (
     <div>
@@ -69,17 +85,17 @@ const ProductDetails = ({
           <h3 className={styles.price}>{price.toLocaleString('uk-UA')} грн</h3>
         </div>
 
-        <DeliveryBottomSheet
-          product={{
-            name: `${name}, ${colorLabel}, ${sizeLabel}`,
-            price,
-            size,
-            sizeLabel,
-            salesdriveProductId,
-          }}
-          onSubmit={handleSubmit}
-        />
+        <button
+          type="button"
+          className={styles.buyButton}
+          onClick={handleOrder}
+        >
+          <ShoppingCartIcon size={22} weight="bold" aria-hidden />
+          <span>Замовити</span>
+        </button>
       </div>
+
+      <VolumeDiscountNote variant="card" />
 
       <div className={styles.specs}>
         <div className={styles.specItem}>

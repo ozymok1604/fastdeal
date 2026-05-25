@@ -1,6 +1,7 @@
 import { Manrope } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
+import AppProviders from '@/components/AppProviders';
 
 const manrope = Manrope({
   subsets: ['cyrillic', 'latin', 'latin-ext'],
@@ -93,7 +94,9 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-      <body className={manrope.className}>{children}</body>
+      <body className={manrope.className}>
+        <AppProviders>{children}</AppProviders>
+      </body>
     </html>
   );
 }

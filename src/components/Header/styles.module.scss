@@ -22,8 +22,8 @@
   box-sizing: border-box;
   height: calc(var(--header-bar, 70px) + env(safe-area-inset-top, 0px));
   padding-top: env(safe-area-inset-top, 0px);
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 12px;
+  padding-right: 12px;
 
   overflow: hidden;
   min-height: 0;
@@ -62,16 +62,87 @@
 .logo {
   display: block;
   height: auto;
-  max-height: 44px;
+  max-height: 34px;
   width: auto;
-  max-width: min(120px, 38vw);
+  max-width: min(108px, 36vw);
   object-fit: contain;
 }
 
-.row {
+.actions {
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 10px;
   flex-shrink: 0;
+}
+
+.cartAction {
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.actionsDivider {
+  flex-shrink: 0;
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.socialGroup {
+  display: flex;
+  flex-direction: row;
   align-items: center;
+  gap: 4px;
+}
+
+/* Однаковий бокс для іконок */
+.iconAction {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  line-height: 0;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+
+  svg {
+    display: block;
+  }
+}
+
+.cartBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: #1f6d3d;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  border: 2px solid rgba(45, 46, 32, 0.95);
+  pointer-events: none;
 }

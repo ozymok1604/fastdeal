@@ -1,18 +1,21 @@
 'use client';
 
-import { TiktokLogoIcon, PhoneCallIcon } from '@phosphor-icons/react';
+import {
+  TiktokLogoIcon,
+  PhoneCallIcon,
+  ShoppingCartSimpleIcon,
+  TelegramLogoIcon,
+} from '@phosphor-icons/react';
 import styles from './styles.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCart } from '@/context/CartContext';
 
 const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
-
-  
+  const { totalCount, openDrawer } = useCart();
 
   return (
-    <div className={`${styles.header}${scrolled ? ` ${styles.headerScrolled}` : ''}`}>
+    <div className={styles.header}>
       <Link href="/" className={styles.logoLink} aria-label="На головну">
         <Image
           src="/logo.png"
@@ -26,19 +29,42 @@ const Header = () => {
       </Link>
 
      
-      <div className={styles.row}>
-        <Link
-          className={styles.link}
-          href="https://www.tiktok.com/@fastdeal.ua"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="TikTok FastDeal"
+      <div className={styles.actions}>
+        <div className={styles.socialGroup}>
+          <Link
+            className={styles.iconAction}
+            href="https://t.me/fast_deal_military"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Telegram Fast Deal"
+          >
+            <TelegramLogoIcon color="white" size={24} weight="fill" aria-hidden />
+          </Link>
+          <Link
+            className={styles.iconAction}
+            href="https://www.tiktok.com/@fastdeal.ua"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="TikTok FastDeal"
+          >
+            <TiktokLogoIcon color="white" size={24} aria-hidden />
+          </Link>
+          <a className={styles.iconAction} href="tel:+380998073556" aria-label="Зателефонувати">
+            <PhoneCallIcon color="white" size={24} aria-hidden />
+          </a>
+        </div>
+        <span className={styles.actionsDivider} aria-hidden />
+        <button
+          type="button"
+          className={`${styles.iconAction} ${styles.cartAction}`}
+          onClick={openDrawer}
+          aria-label={totalCount > 0 ? `Кошик, ${totalCount} поз.` : 'Кошик'}
         >
-          <TiktokLogoIcon color="white" size={30} />
-        </Link>
-        <a href="tel:+380998073556">
-          <PhoneCallIcon color="white" size={30} />
-        </a>
+          <ShoppingCartSimpleIcon color="white" size={24} weight="bold" aria-hidden />
+          {totalCount > 0 ? (
+            <span className={styles.cartBadge}>{totalCount > 99 ? '99+' : totalCount}</span>
+          ) : null}
+        </button>
       </div>
     </div>
   );
