@@ -17,7 +17,7 @@ const ProductsListItem = ({ data, listIndex = 0 }) => {
   const eagerMainImage = listIndex < 4;
 
   return (
-    <Link href={`/product?id=${data.id}`}>
+    <Link href={`/product?id=${encodeURIComponent(data.id)}&color=${encodeURIComponent(previewColor)}`}>
       <div className={styles.product}>
         <div className={styles.fastLacing} aria-hidden>
           <Image

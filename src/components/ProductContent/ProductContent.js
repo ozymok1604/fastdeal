@@ -3,16 +3,26 @@ import { Gallery } from '@/components/Gallery/Gallery';
 import { Sizes } from '@/components/Sizes/Sizes';
 import { Colors } from '@/components/Colors/Colors';
 import { products, mediaUrls, defaultProductColorId } from '@/data/products';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 import { Header } from '@/components/Header/Header';
 import { ProductDetails } from '@/components/ProductDetails/ProductDetails';
 import Footer from '@/components/Footer/Footer';
 
-function ProductView({ productData }) {
+function pickInitialColor(productData, colorFromUrl) {
+  const requested = String(colorFromUrl || '').trim();
+  if (!requested) return defaultProductColorId(productData.colors);
+  const exists = productData.colors?.some((c) => c.id === requested);
+  return exists ? requested : defaultProductColorId(productData.colors);
+}
+
+function ProductView({ productData, initialColor }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [size, setSize] = useState(productData.sizes[0]);
-  const [color, setColor] = useState(() => defaultProductColorId(productData.colors));
+  const [color, setColor] = useState(() => pickInitialColor(productData, initialColor));
   /** Повний список з API; null = ще не прийшов — показуємо синхронний fallback з даних товару */
   const [scannedGalleryUrls, setScannedGalleryUrls] = useState(null);
 
@@ -47,6 +57,21 @@ function ProductView({ productData }) {
     };
   }, [productData.id, color, productData]);
 
+  useEffect(() => {
+    setColor(pickInitialColor(productData, initialColor));
+  }, [productData, initialColor]);
+
+  useEffect(() => {
+    const currentId = searchParams.get('id');
+    const currentColor = searchParams.get('color');
+    if (currentId === productData.id && currentColor === color) return;
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('id', productData.id);
+    params.set('color', color);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [color, pathname, productData.id, router, searchParams]);
+
   return (
     <>
       <Header />
@@ -76,6 +101,7 @@ function ProductView({ productData }) {
 export default function ProductContent() {
   const sp = useSearchParams();
   const id = sp.get('id');
+  const colorFromUrl = sp.get('color');
   const productData = products.find((it) => it.id === id);
 
   if (!productData) {
@@ -92,7 +118,11 @@ export default function ProductContent() {
 
   return (
     <Suspense>
-      <ProductView key={productData.id} productData={productData} />
+      <ProductView
+        key={productData.id}
+        productData={productData}
+        initialColor={colorFromUrl}
+      />
     </Suspense>
   );
 }
