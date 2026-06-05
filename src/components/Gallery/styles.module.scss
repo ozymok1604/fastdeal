@@ -17,7 +17,7 @@
   border-radius: 14px;
   background: #e9ecef;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.06);
-  padding: 10px;
+  padding: 0;
   box-sizing: border-box;
   overscroll-behavior-x: contain;
   touch-action: pan-y pinch-zoom;
@@ -49,11 +49,10 @@
 }
 
 .slideImage {
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   user-select: none;
   touch-action: inherit;
-  border-radius: 12px;
   pointer-events: none;
 }
 

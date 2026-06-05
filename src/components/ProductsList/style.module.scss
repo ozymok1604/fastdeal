@@ -98,8 +98,12 @@
 
 .image {
   object-fit: contain;
-  /* contain по центру дає “поля” зверху й знизу — притискаємо до верху */
   object-position: center top;
+}
+
+.imageCover {
+  object-fit: cover;
+  object-position: center;
 }
 
 .colorThumbsRow {

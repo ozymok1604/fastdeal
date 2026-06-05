@@ -1,14 +1,18 @@
+'use client';
+
 import Link from 'next/link';
 import styles from './style.module.scss';
 import Image from 'next/image';
-import { mediaUrls, defaultProductColorId } from '@/data/products';
+import { mediaUrls, listingPreviewColorId } from '@/data/products';
+import { useState } from 'react';
 
 const ProductsListItem = ({ data, listIndex = 0 }) => {
-  const previewColor = defaultProductColorId(data.colors ?? []);
+  const previewColor = listingPreviewColorId(data.colors ?? []);
   const slots = data.mediaByColor?.[previewColor];
   const urls = slots?.length ? mediaUrls(data.id, previewColor, slots) : [];
   const fallbackExt = slots?.[0]?.ext ?? 'png';
   const mainImgUrl = urls[0] ?? `/images/${data.id}/${previewColor}/1.${fallbackExt}`;
+  const [imageFit, setImageFit] = useState('contain');
   const thumbColors = (data.colors ?? [])
     .filter((c) => c.id !== previewColor)
     .slice(0, 2);
@@ -39,7 +43,10 @@ const ProductsListItem = ({ data, listIndex = 0 }) => {
             fetchPriority={eagerMainImage ? 'high' : 'low'}
             sizes="(max-width: 640px) calc(50vw - 20px), (max-width: 960px) 30vw, 300px"
             quality={eagerMainImage ? 80 : 72}
-            className={styles.image}
+            className={imageFit === 'cover' ? styles.imageCover : styles.image}
+            onLoadingComplete={(img) => {
+              setImageFit(img.naturalHeight > img.naturalWidth * 1.02 ? 'cover' : 'contain');
+            }}
           />
           {thumbColors.length > 0 && data.mediaByColor && (
             <div className={styles.colorThumbsRow}>

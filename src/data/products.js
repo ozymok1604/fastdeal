@@ -9,12 +9,21 @@ export function mediaUrls(productId, colorId, media) {
 }
 
 /**
- * Стартовий колір карточки товару і превʼю в списку: койот, якщо є в палітрі; інакше перший із каталогу.
+ * Стартовий колір на сторінці товару: койот, якщо є в палітрі; інакше перший із каталогу.
  * @param {{ id: string }[]} colors
  */
 export function defaultProductColorId(colors) {
   if (!colors?.length) return 'olive';
   return colors.some((c) => c.id === 'coyote') ? 'coyote' : colors[0].id;
+}
+
+/**
+ * Превʼю в списку товарів: олива, якщо є в палітрі; інакше перший із каталогу.
+ * @param {{ id: string }[]} colors
+ */
+export function listingPreviewColorId(colors) {
+  if (!colors?.length) return 'olive';
+  return colors.some((c) => c.id === 'olive') ? 'olive' : colors[0].id;
 }
 
 /** Олива: 1.jpeg + 2–8 .jpg */
@@ -197,6 +206,41 @@ const coreAMediaByColor = {
   black: pngGallery1to5.map((m) => ({ ...m })),
 };
 
+/** JPG галерея 1–5 у кожній теці кольору */
+const jpgGallery1to5 = [1, 2, 3, 4, 5].map((n) => ({ n, ext: 'jpg' }));
+
+const stormAMediaByColor = {
+  olive: jpgGallery1to5.map((m) => ({ ...m })),
+  coyote: jpgGallery1to5.map((m) => ({ ...m })),
+  black: jpgGallery1to5.map((m) => ({ ...m })),
+};
+
+const specDetailsStorm = `Матеріал: Натуральна шкіра, в комбінації з вставками 3D сітки.
+
+Підкладка: дихаюча підкладка (чудова вентиляція).
+
+Устілка: ортопедична.
+
+Підошва: трекінгова підошва.
+
+Сезон: весна/літо.
+
+Колір: чорний/олива/койот.
+
+Виробник: Харків.
+
+Розміри: 40-46 (повномірні).`;
+
+const descriptionStorm = `${descriptionBase} Трекінгова підошва забезпечує надійне зчеплення на різних поверхнях, ортопедична устілка підтримує стопу під час тривалої ходьби, а дихаюча підкладка допомагає нозі залишатися сухою та комфортною.`;
+
+const advantagesStorm = [
+  'трекінгова підошва з гарним протектором;',
+  'ортопедична устілка;',
+  'дихаюча підкладка;',
+  'система швидкої шнурівки;',
+  "посилена п'ята / антивандальний посилений носок;",
+];
+
 export const products = [
   {
     id: 'tactic-shadow-a',
@@ -300,5 +344,23 @@ export const products = [
     description: descriptionBlazeSeries,
     advantagesIntro: 'З переваг варто відмітити:',
     advantages: advantagesBlazeSeries,
+  },
+  {
+    id: 'tactic-storm-a',
+    name: 'Тактичні кросівки Storm-A',
+    price: 2100,
+    compareAtMore: 500,
+    highlights: shadowAHighlights,
+    mediaByColor: stormAMediaByColor,
+    colors: [
+      { id: 'olive', label: 'Олива' },
+      { id: 'coyote', label: 'Койот' },
+      { id: 'black', label: 'Чорні' },
+    ],
+    sizes: [40, 41, 42, 43, 44, 45, 46],
+    specDetails: specDetailsStorm,
+    description: descriptionStorm,
+    advantagesIntro: 'З переваг варто відмітити:',
+    advantages: advantagesStorm,
   },
 ];
