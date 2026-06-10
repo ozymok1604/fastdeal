@@ -273,7 +273,7 @@ function buildNovaposhtaBlock(division) {
   /** @type {Record<string, unknown>} */
   const np = {
     ServiceType: 'Warehouse',
-    payer: 'sender',
+    payer: 'recipient',
   };
   if (ttnRaw) np.ttn = ttnRaw;
 
@@ -551,8 +551,8 @@ export async function createSalesDriveShopOrder(payload) {
   };
   mergedNp.ServiceType = mergedNp.ServiceType || 'Warehouse';
   const payerRaw =
-    typeof mergedNp.payer === 'string' ? mergedNp.payer.trim().toLowerCase() : 'sender';
-  mergedNp.payer = payerRaw === 'recipient' ? 'recipient' : 'sender';
+    typeof mergedNp.payer === 'string' ? mergedNp.payer.trim().toLowerCase() : 'recipient';
+  mergedNp.payer = payerRaw === 'sender' ? 'sender' : 'recipient';
 
   const npFinal = pickNovaposhtaHandlerFields(mergedNp);
   if (npFinal && Object.keys(npFinal).length > 0) {
