@@ -88,7 +88,7 @@ export default function RootLayout({ children }) {
                 e = d.getElementsByTagName("script")[0];
                 e.parentNode.insertBefore(n, e);
               };
-              ttq.load('D7GF7HJC77U8OVL7ELEG');
+              ttq.load('D8PDL7RC77U5LM9ITCG0');
               ttq.page();
             }(window, document, 'ttq');
           `}
